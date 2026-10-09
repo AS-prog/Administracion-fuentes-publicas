@@ -1,0 +1,136 @@
+<title>Adjudicaciones septiembre 2026</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: cabecera con titular, banda de cifras, serie diaria a ancho completo y rejilla de rankings de dos columnas */
+:root{
+  --bg:#f5f6f8;--surface:#ffffff;--ink:#16202e;--ink2:#4a5668;--muted:#7b8696;--line:#e1e5eb;--grid:#eceff3;
+  --s1:#2f5fd0;--s2:#e08a1e;--s3:#6b7a90;--accent:#2f5fd0;--bar:#2f5fd0;--warn-bg:#fff6e5;--warn-ink:#7a4d00;
+  --sans:'IBM Plex Sans',system-ui,-apple-system,'Segoe UI',sans-serif;--mono:'IBM Plex Mono',ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f141c;--surface:#171e29;--ink:#e8ecf2;--ink2:#a9b3c2;--muted:#7f8a9a;--line:#263040;--grid:#202a38;
+  --s1:#6f97f0;--s2:#f0a94d;--s3:#8795ab;--accent:#6f97f0;--bar:#6f97f0;--warn-bg:#2b2412;--warn-ink:#f0cf8a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f141c;--surface:#171e29;--ink:#e8ecf2;--ink2:#a9b3c2;--muted:#7f8a9a;--line:#263040;--grid:#202a38;
+  --s1:#6f97f0;--s2:#f0a94d;--s3:#8795ab;--accent:#6f97f0;--bar:#6f97f0;--warn-bg:#2b2412;--warn-ink:#f0cf8a;color-scheme:dark}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;line-height:1.5;padding-inline:16px;padding-block:28px 48px}
+.wrap{max-width:1120px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-size:clamp(22px,3.4vw,30px);font-weight:600;letter-spacing:-.01em;margin:0;text-wrap:balance}
+.sub{color:var(--ink2);margin:6px 0 0;max-width:70ch}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:6px;overflow:hidden}
+.kpi{background:var(--surface);padding:14px 16px;min-width:0}
+.kpi b{display:block;font-family:var(--mono);font-weight:500;font-size:clamp(20px,3vw,26px);font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.kpi span{color:var(--muted);font-size:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;min-width:0}
+.card h2{font-size:14px;font-weight:600;margin:0}
+.card p.d{color:var(--muted);font-size:12px;margin:2px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:20px}
+.head{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+.seg button{font:inherit;font-size:12px;background:transparent;color:var(--ink2);border:0;padding:5px 10px;cursor:pointer}
+.seg button[aria-pressed=true]{background:var(--accent);color:#fff}
+.seg button:focus-visible,.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin-bottom:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px;vertical-align:-1px}
+#serie{width:100%;height:auto;display:block;overflow:visible}
+svg text{fill:var(--muted);font-family:var(--mono);font-size:10px}
+.readout{font-family:var(--mono);font-size:12px;color:var(--ink2);min-height:18px;margin-top:6px}
+.rank{display:flex;flex-direction:column;gap:7px;margin:0;padding:0;list-style:none}
+.rank li{display:grid;grid-template-columns:minmax(0,1fr) 78px;gap:2px 10px;align-items:center}
+.rank .n{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.rank .v{font-family:var(--mono);font-size:12px;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.rank .b{grid-column:1/-1;height:6px;background:var(--grid);border-radius:3px;overflow:hidden}
+.rank .b em{display:block;height:100%;background:var(--bar);border-radius:0 3px 3px 0}
+.rank .sm{font-size:11px;color:var(--muted);grid-column:1/-1;margin-top:-3px}
+.note{background:var(--warn-bg);color:var(--warn-ink);border-radius:6px;padding:12px 14px;font-size:12.5px}
+.note b{font-weight:600}
+.foot{color:var(--muted);font-size:12px;max-width:90ch}
+.foot code{font-family:var(--mono)}
+.stack{display:flex;height:22px;border-radius:4px;overflow:hidden;gap:2px;margin:6px 0 8px}
+.stack div{min-width:2px}
+</style>
+<div class="wrap">
+ <header>
+  <h1>Contratación pública adjudicada, septiembre de 2026</h1>
+  <p class="sub">Adjudicaciones con fecha del 1 al 30 de septiembre en los tres feeds de la Plataforma de Contratación del Sector Público: perfiles alojados, plataformas autonómicas agregadas y contratos menores.</p>
+ </header>
+ <section class="kpis" id="kpis"></section>
+ <section class="card">
+  <div class="head"><div><h2>Adjudicaciones por día</h2><p class="d">Fecha de adjudicación. Los fines de semana casi no hay actividad.</p></div>
+   <div class="seg" role="group" aria-label="Medida"><button id="m-imp" aria-pressed="true">Importe</button><button id="m-n" aria-pressed="false">Nº de lotes</button></div></div>
+  <div class="legend" id="leg"></div>
+  <svg id="serie" viewBox="0 0 1000 260" role="img" aria-label="Serie diaria de adjudicaciones por feed"></svg>
+  <div class="readout" id="ro">Pasa el cursor por una barra para ver el día.</div>
+ </section>
+ <div class="grid">
+  <section class="card"><h2>Empresas que más han ganado</h2><p class="d">Importe sin IVA adjudicado. Solo personas jurídicas; las UTE aparecen como una empresa.</p><ul class="rank" id="emp"></ul></section>
+  <section class="card"><h2>Órganos que más adjudican</h2><p class="d">Importe sin IVA por órgano de contratación.</p><ul class="rank" id="org"></ul></section>
+  <section class="card"><h2>Por comunidad autónoma</h2><p class="d">Según el código NUTS de la licitación. «Sin CCAA» agrupa códigos de ámbito estatal o genérico.</p><ul class="rank" id="ccaa"></ul></section>
+  <section class="card"><h2>Tipo de contrato</h2><p class="d">Importe sin IVA.</p><ul class="rank" id="tipo"></ul></section>
+  <section class="card"><h2>Procedimiento</h2><p class="d">El procedimiento abierto concentra casi tres cuartas partes del importe; el menor, casi la mitad de los lotes.</p><ul class="rank" id="proc"></ul></section>
+  <section class="card"><h2>Ofertas recibidas por lote</h2><p class="d">Feeds de perfiles alojados y plataformas autonómicas (los menores no informan de ofertas). Lotes adjudicados.</p><div class="stack" id="ofstack"></div><ul class="rank" id="ofer"></ul></section>
+ </div>
+ <div class="note"><b>Cómo leer las cifras.</b> En acuerdos marco el importe del lote se repite en cada adjudicatario; aquí se reparte entre ellos para no contar el mismo dinero varias veces. Los importes son sin IVA. <span id="pf"></span> Las etiquetas de tipo y procedimiento siguen los códigos de la PLACSP y no se han contrastado con la ficha del repo, salvo «menor» (código 6).</div>
+ <p class="foot">Fuente: PLACSP, descargada con <code>almacen.py zip-placsp 202609</code> del catálogo BquantFinance/Administracion-fuentes-publicas. Se cuentan lotes con resultado 8 o 9 (formalizado o adjudicado) y última versión de cada expediente. La licencia de reutilización de cada fuente está en <code>guides/reutilizacion.md</code> del repo.</p>
+</div>
+<script>
+const D={"kpi": {"adjudicaciones": 33704, "expedientes": 29183, "importe": 5705819010.560011, "mediana": 7658.69, "pct_pyme": 0.5918346429791596, "empresas": 14913, "pf": 4967}, "dia": [{"d": "2026-09-01", "feed": "1044", "n": 424, "imp": 130158090.67999996}, {"d": "2026-09-01", "feed": "643", "n": 719, "imp": 163969545.58999988}, {"d": "2026-09-01", "feed": "1143", "n": 876, "imp": 4409493.97}, {"d": "2026-09-02", "feed": "643", "n": 611, "imp": 94478052.0}, {"d": "2026-09-02", "feed": "1143", "n": 863, "imp": 4955002.57}, {"d": "2026-09-02", "feed": "1044", "n": 239, "imp": 49482518.07000001}, {"d": "2026-09-03", "feed": "643", "n": 655, "imp": 210813208.69999996}, {"d": "2026-09-03", "feed": "1143", "n": 876, "imp": 4535919.13}, {"d": "2026-09-03", "feed": "1044", "n": 244, "imp": 74484600.03}, {"d": "2026-09-04", "feed": "1143", "n": 942, "imp": 4430889.640000003}, {"d": "2026-09-04", "feed": "1044", "n": 259, "imp": 108329386.54}, {"d": "2026-09-04", "feed": "643", "n": 607, "imp": 164914041.21000007}, {"d": "2026-09-05", "feed": "1044", "n": 24, "imp": 180547916.72}, {"d": "2026-09-05", "feed": "1143", "n": 45, "imp": 203403.16}, {"d": "2026-09-05", "feed": "643", "n": 7, "imp": 221770.26}, {"d": "2026-09-06", "feed": "1044", "n": 2, "imp": 222643.84}, {"d": "2026-09-06", "feed": "1143", "n": 35, "imp": 84871.73000000001}, {"d": "2026-09-06", "feed": "643", "n": 16, "imp": 2147779.3899999997}, {"d": "2026-09-07", "feed": "643", "n": 507, "imp": 125767312.67000003}, {"d": "2026-09-07", "feed": "1143", "n": 864, "imp": 5030425.530000001}, {"d": "2026-09-07", "feed": "1044", "n": 254, "imp": 55664302.56000002}, {"d": "2026-09-08", "feed": "1044", "n": 223, "imp": 39715659.26}, {"d": "2026-09-08", "feed": "643", "n": 486, "imp": 153046066.34000006}, {"d": "2026-09-08", "feed": "1143", "n": 702, "imp": 4000515.180000003}, {"d": "2026-09-09", "feed": "1044", "n": 253, "imp": 55264685.91000001}, {"d": "2026-09-09", "feed": "643", "n": 725, "imp": 156975750.4600001}, {"d": "2026-09-09", "feed": "1143", "n": 832, "imp": 4685050.8}, {"d": "2026-09-10", "feed": "1143", "n": 957, "imp": 4073249.190000001}, {"d": "2026-09-10", "feed": "643", "n": 613, "imp": 226854581.4600001}, {"d": "2026-09-10", "feed": "1044", "n": 237, "imp": 102848206.08000004}, {"d": "2026-09-11", "feed": "1143", "n": 931, "imp": 4815208.500000003}, {"d": "2026-09-11", "feed": "643", "n": 646, "imp": 130808608.4699999}, {"d": "2026-09-11", "feed": "1044", "n": 106, "imp": 19370336.849999998}, {"d": "2026-09-12", "feed": "643", "n": 19, "imp": 2752993.1199999996}, {"d": "2026-09-12", "feed": "1143", "n": 21, "imp": 64567.92999999999}, {"d": "2026-09-12", "feed": "1044", "n": 1, "imp": 480.0}, {"d": "2026-09-13", "feed": "1044", "n": 6, "imp": 4525416.86}, {"d": "2026-09-13", "feed": "1143", "n": 12, "imp": 102448.48000000001}, {"d": "2026-09-13", "feed": "643", "n": 10, "imp": 1053906.87}, {"d": "2026-09-14", "feed": "643", "n": 612, "imp": 116023314.75999998}, {"d": "2026-09-14", "feed": "1143", "n": 723, "imp": 6101006.879999995}, {"d": "2026-09-14", "feed": "1044", "n": 219, "imp": 125437520.96000002}, {"d": "2026-09-15", "feed": "1044", "n": 223, "imp": 493685435.03}, {"d": "2026-09-15", "feed": "643", "n": 507, "imp": 112478165.99000001}, {"d": "2026-09-15", "feed": "1143", "n": 901, "imp": 4317532.1800000025}, {"d": "2026-09-16", "feed": "1143", "n": 855, "imp": 4555297.150000001}, {"d": "2026-09-16", "feed": "1044", "n": 252, "imp": 122326599.39}, {"d": "2026-09-16", "feed": "643", "n": 611, "imp": 108506200.28000003}, {"d": "2026-09-17", "feed": "1044", "n": 197, "imp": 79658798.71000001}, {"d": "2026-09-17", "feed": "1143", "n": 871, "imp": 4460568.829999997}, {"d": "2026-09-17", "feed": "643", "n": 702, "imp": 158142289.95}, {"d": "2026-09-18", "feed": "1044", "n": 152, "imp": 60847286.70000001}, {"d": "2026-09-18", "feed": "643", "n": 614, "imp": 117215369.51000006}, {"d": "2026-09-18", "feed": "1143", "n": 741, "imp": 3950731.830000001}, {"d": "2026-09-19", "feed": "1044", "n": 8, "imp": 4740594.39}, {"d": "2026-09-19", "feed": "643", "n": 20, "imp": 631686.88}, {"d": "2026-09-19", "feed": "1143", "n": 32, "imp": 274420.26}, {"d": "2026-09-20", "feed": "643", "n": 9, "imp": 3670076.09}, {"d": "2026-09-20", "feed": "1143", "n": 13, "imp": 72188.23}, {"d": "2026-09-20", "feed": "1044", "n": 3, "imp": 1699939.95}, {"d": "2026-09-21", "feed": "1044", "n": 131, "imp": 80730184.69000001}, {"d": "2026-09-21", "feed": "1143", "n": 645, "imp": 4132147.5599999996}, {"d": "2026-09-21", "feed": "643", "n": 619, "imp": 268068615.75000003}, {"d": "2026-09-22", "feed": "1143", "n": 641, "imp": 3762023.64}, {"d": "2026-09-22", "feed": "643", "n": 562, "imp": 88733966.0800001}, {"d": "2026-09-22", "feed": "1044", "n": 171, "imp": 49450159.26999998}, {"d": "2026-09-23", "feed": "643", "n": 616, "imp": 83488681.7899999}, {"d": "2026-09-23", "feed": "1143", "n": 614, "imp": 3445579.8700000024}, {"d": "2026-09-23", "feed": "1044", "n": 178, "imp": 175511191.5699999}, {"d": "2026-09-24", "feed": "643", "n": 672, "imp": 456522490.6199998}, {"d": "2026-09-24", "feed": "1044", "n": 109, "imp": 65176515.04000001}, {"d": "2026-09-24", "feed": "1143", "n": 687, "imp": 3775073.300000003}, {"d": "2026-09-25", "feed": "1044", "n": 148, "imp": 20829292.700000003}, {"d": "2026-09-25", "feed": "1143", "n": 500, "imp": 2923411.53}, {"d": "2026-09-25", "feed": "643", "n": 486, "imp": 269178459.83000004}, {"d": "2026-09-26", "feed": "1143", "n": 11, "imp": 73002.01}, {"d": "2026-09-26", "feed": "643", "n": 20, "imp": 2371486.35}, {"d": "2026-09-26", "feed": "1044", "n": 3, "imp": 204658.00999999998}, {"d": "2026-09-27", "feed": "1143", "n": 8, "imp": 23492.58}, {"d": "2026-09-27", "feed": "643", "n": 14, "imp": 3657012.9899999998}, {"d": "2026-09-27", "feed": "1044", "n": 2, "imp": 337806.70999999996}, {"d": "2026-09-28", "feed": "1143", "n": 527, "imp": 2955355.149999999}, {"d": "2026-09-28", "feed": "1044", "n": 178, "imp": 28543156.750000026}, {"d": "2026-09-28", "feed": "643", "n": 477, "imp": 71535463.15999997}, {"d": "2026-09-29", "feed": "1044", "n": 121, "imp": 11237413.240000002}, {"d": "2026-09-29", "feed": "643", "n": 461, "imp": 95131609.29999997}, {"d": "2026-09-29", "feed": "1143", "n": 412, "imp": 2185637.790000001}, {"d": "2026-09-30", "feed": "643", "n": 240, "imp": 55023603.31}, {"d": "2026-09-30", "feed": "1044", "n": 67, "imp": 30589609.029999997}, {"d": "2026-09-30", "feed": "1143", "n": 270, "imp": 1617981.2400000007}], "empresas": [{"nif": "B98751472", "nombre": "Atende Servicios Integrados, S.L.U", "n": 4, "imp": 230206700.35000002}, {"nif": "A85621159", "nombre": "SERVEO SOCIAL, SL", "n": 2, "imp": 210357329.76999998}, {"nif": "338574", "nombre": "UTE Ohl-sando-altuna Y Uria-chm", "n": 1, "imp": 199734168.0}, {"nif": "A00000000", "nombre": "Movilidad Urbana Sostenible S.L. - FIFTEEN", "n": 6, "imp": 128323243.97}, {"nif": "B28089225", "nombre": "PFIZER, S.L.", "n": 11, "imp": 69692945.34}, {"nif": "A28925899", "nombre": "JANSSEN CILAG, S.A.", "n": 32, "imp": 67553229.92000002}, {"nif": "U05626460", "nombre": "UTE AP-68 BIZKAIA ( ABERTIS GESTIÓN VIARIA-ASFALTOS URIBE)", "n": 1, "imp": 64530017.59}, {"nif": "A28228526", "nombre": "GlaxoSmithKline, S.A.", "n": 18, "imp": 57318737.21}, {"nif": "A28854727", "nombre": "FCC CONSTRUCCION, S.A.", "n": 3, "imp": 56194499.31}, {"nif": "B81927709", "nombre": "ESCRIBANO MECHANICAL & ENGINEERING S.L.", "n": 7, "imp": 55219220.34}, {"nif": "331569", "nombre": "FERROVIAL CONSTRUCCIÓN, S.A. y ASYOTA ASFALTOS Y OBRAS, S.L.", "n": 1, "imp": 54376618.0}, {"nif": "F20032553", "nombre": "AUZO LAGUN, S. COOP.", "n": 9, "imp": 52733418.12}, {"nif": "A80241789", "nombre": "SERVEO SERVICIOS S.A.U", "n": 50, "imp": 52677177.510000005}, {"nif": "A48145288", "nombre": "GASTRONOMÍA VASCA, S.A.", "n": 6, "imp": 51708188.81999999}, {"nif": "A83052407", "nombre": "SOCIEDAD ESTATAL CORREOS Y TELEGRAFOS,  S.A. S.M.E.", "n": 33, "imp": 48578917.13999999}], "top10_share": 0.19964357258647022, "organos": [{"organo": "Institut Municipal de Serveis Socials", "n": 4, "imp": 435458097.57}, {"organo": "OSAKIDETZA - Servicio Vasco de Salud -Director General", "n": 97, "imp": 258144166.10999998}, {"organo": "ADIF Alta Velocidad - Consejo de Administración", "n": 5, "imp": 225114779.89000002}, {"organo": "Gobierno Vasco-Consejero/a de Educación", "n": 30, "imp": 208825510.16}, {"organo": "Junta de Contratación del Ministerio de Defensa", "n": 8, "imp": 168550112.98}, {"organo": "Jefatura de Asuntos Económicos del Mando de Apoyo Logístico", "n": 124, "imp": 123796959.68000004}, {"organo": "INTERBIAK BIZKAIA, S.A. M.P.-Consejo de Administración", "n": 7, "imp": 106446992.92000002}, {"organo": "Servicio Andaluz de Salud", "n": 319, "imp": 98674942.1}, {"organo": "Dirección General de Gestión Económica, Contratación e Infraestructuras de la Conselleria de Sanidad", "n": 50, "imp": 94739672.64999999}, {"organo": "Barcelona de Serveis Municipals SA", "n": 123, "imp": 87294879.72000001}, {"organo": "Consellería de Presidencia, Xustiza e Deportes", "n": 72, "imp": 83180864.05999997}, {"organo": "Dirección General de Racionalización y Centralización de la Contratación-Junta de Contratación Centralizada", "n": 367, "imp": 71900757.75999999}], "tipo": [{"tipo": "2", "n": 15302, "imp": 2560291891.12}, {"tipo": "3", "n": 3997, "imp": 1603141027.8800032}, {"tipo": "1", "n": 13160, "imp": 1425828647.7399986}, {"tipo": "8", "n": 796, "imp": 48253780.75000003}, {"tipo": "22", "n": 125, "imp": 26169693.719999995}, {"tipo": "999", "n": 46, "imp": 14928333.279999996}, {"tipo": "50", "n": 178, "imp": 13323785.499999998}, {"tipo": "21", "n": 1, "imp": 12763041.89}, {"tipo": "7", "n": 97, "imp": 1018141.5399999999}, {"tipo": "32", "n": 2, "imp": 100667.14}], "proc": [{"p": "6", "n": 16407, "imp": 90016495.84000021}, {"p": "1", "n": 8521, "imp": 4064326138.8300214}, {"p": "9", "n": 4590, "imp": 328104023.61999965}, {"p": "3", "n": 1537, "imp": 660206545.7800003}, {"p": "2", "n": 1121, "imp": 105810849.16999997}, {"p": "100", "n": 771, "imp": 61061016.40000002}, {"p": "7", "n": 339, "imp": 49299857.13000001}, {"p": "999", "n": 299, "imp": 23647170.63}, {"p": "4", "n": 61, "imp": 291300248.6499999}, {"p": "13", "n": 54, "imp": 31018965.27}, {"p": "8", "n": 3, "imp": 112699.23999999999}, {"p": "10", "n": 1, "imp": 915000.0}], "nuts": [{"nuts": "ES30", "n": 4666, "imp": 1144119377.469999}, {"nuts": "ES51", "n": 2218, "imp": 903549489.9600021}, {"nuts": "ES21", "n": 1326, "imp": 879608805.1299999}, {"nuts": "ES61", "n": 5479, "imp": 507538387.72999924}, {"nuts": "ES52", "n": 3618, "imp": 384482687.6800003}, {"nuts": "ES", "n": 1209, "imp": 339391078.2100008}, {"nuts": "ES70", "n": 1772, "imp": 277442850.2099997}, {"nuts": "ES11", "n": 1092, "imp": 253133926.8000003}, {"nuts": "ES41", "n": 3231, "imp": 200717750.56999984}, {"nuts": "ES53", "n": 601, "imp": 151874391.98999992}, {"nuts": "ES42", "n": 3083, "imp": 151760577.78}, {"nuts": "ES62", "n": 1372, "imp": 105961489.19999994}, {"nuts": "ES24", "n": 1094, "imp": 89751666.7400001}, {"nuts": "ES43", "n": 934, "imp": 62889075.12999994}, {"nuts": "ES12", "n": 615, "imp": 58739399.980000004}, {"nuts": "ES13", "n": 359, "imp": 46522543.22}, {"nuts": "ES22", "n": 219, "imp": 40834268.85000001}, {"nuts": "ESZZ", "n": 56, "imp": 33242522.770000007}, {"nuts": "ES63", "n": 162, "imp": 29934969.610000003}, {"nuts": "ES23", "n": 295, "imp": 15836135.729999995}, {"nuts": "ES64", "n": 71, "imp": 11471036.509999998}, {"nuts": "ES3", "n": 57, "imp": 6826502.0600000005}, {"nuts": "ES1", "n": 68, "imp": 4660035.760000002}, {"nuts": null, "n": 18, "imp": 3121737.9}, {"nuts": "SK01", "n": 1, "imp": 1116771.95}, {"nuts": "ES7", "n": 76, "imp": 495849.22}, {"nuts": "ES5", "n": 1, "imp": 267520.49}, {"nuts": "ES4", "n": 4, "imp": 182456.15}, {"nuts": "SK", "n": 1, "imp": 157950.0}, {"nuts": "ITZZ", "n": 1, "imp": 87000.0}, {"nuts": "ESZ", "n": 3, "imp": 39828.76}, {"nuts": "DE30", "n": 1, "imp": 39250.0}, {"nuts": "UKI", "n": 1, "imp": 21677.0}], "ofertas": [{"b": "6+", "n": 2626}, {"b": "1", "n": 7328}, {"b": "2", "n": 3061}, {"b": "3", "n": 2180}, {"b": "4-5", "n": 2101}, {"b": "sd", "n": 1}], "feed": [{"feed": "643", "n": 12863, "imp": 3444182109.1800246}, {"feed": "1044", "n": 4434, "imp": 2171620405.540003}, {"feed": "1143", "n": 16407, "imp": 90016495.84000021}]};
+const f0=n=>Math.round(n).toLocaleString('es-ES');
+const eur=n=>n>=1e9?(n/1e9).toLocaleString('es-ES',{maximumFractionDigits:2})+' mil M€':n>=1e6?(n/1e6).toLocaleString('es-ES',{maximumFractionDigits:n>=1e8?0:1})+' M€':n>=1e3?(n/1e3).toLocaleString('es-ES',{maximumFractionDigits:0})+' mil €':f0(n)+' €';
+const FEED={'643':'Perfiles alojados','1044':'Plataformas autonómicas','1143':'Contratos menores'};
+const COL={'643':'var(--s1)','1044':'var(--s2)','1143':'var(--s3)'};
+const TIPO={'1':'Suministros','2':'Servicios','3':'Obras','8':'Privado','22':'Concesión de servicios','50':'Patrimonial','999':'Otros','21':'Gestión de servicios públicos','7':'Administrativo especial','32':'Concesión de obras'};
+const PROC={'1':'Abierto','6':'Menor','9':'Abierto simplificado','3':'Negociado sin publicidad','2':'Restringido','100':'Normas internas','7':'Derivado de acuerdo marco','4':'Negociado con publicidad'};
+const CCAA={ES11:'Galicia',ES12:'Asturias',ES13:'Cantabria',ES21:'País Vasco',ES22:'Navarra',ES23:'La Rioja',ES24:'Aragón',ES30:'Madrid',ES41:'Castilla y León',ES42:'Castilla-La Mancha',ES43:'Extremadura',ES51:'Cataluña',ES52:'C. Valenciana',ES53:'Baleares',ES61:'Andalucía',ES62:'Murcia',ES63:'Ceuta',ES64:'Melilla',ES70:'Canarias'};
+const k=D.kpi;
+document.getElementById('kpis').innerHTML=[
+ [eur(k.importe),'importe adjudicado'],[f0(k.adjudicaciones),'lotes adjudicados'],[f0(k.expedientes),'expedientes'],
+ [eur(k.mediana),'importe mediano por lote'],[Math.round(k.pct_pyme*100)+' %','lotes ganados por pymes'],[(D.top10_share*100).toFixed(0)+' %','del importe, en 10 adjudicatarios']
+].map(([a,b])=>`<div class="kpi"><b>${a}</b><span>${b}</span></div>`).join('');
+document.getElementById('pf').textContent=`Hay ${f0(k.pf)} lotes ganados por personas físicas: cuentan en los totales pero van sin nombre.`;
+function rank(id,rows,name,val,sub){
+  const mx=Math.max(...rows.map(val));
+  document.getElementById(id).innerHTML=rows.map(r=>`<li><span class="n" title="${name(r)}">${name(r)}</span><span class="v">${eur(val(r))}</span><span class="b"><em style="width:${Math.max(1,val(r)/mx*100)}%"></em></span>${sub?`<span class="sm">${sub(r)}</span>`:''}</li>`).join('');
+}
+rank('emp',D.empresas,r=>r.nombre,r=>r.imp,r=>`${r.nif} · ${r.n} lote${r.n>1?'s':''}`);
+rank('org',D.organos,r=>r.organo,r=>r.imp,r=>`${f0(r.n)} lote${r.n>1?'s':''}`);
+rank('ccaa',D.nuts.map(r=>({n:CCAA[r.nuts]||'Sin CCAA',c:r.n,imp:r.imp})).reduce((a,r)=>{const e=a.find(x=>x.n===r.n);e?(e.imp+=r.imp,e.c+=r.c):a.push({...r});return a},[]).sort((a,b)=>b.imp-a.imp),r=>r.n,r=>r.imp,r=>`${f0(r.c)} lotes`);
+rank('tipo',D.tipo.slice(0,6),r=>TIPO[r.tipo]||'Otros',r=>r.imp,r=>`${f0(r.n)} lotes`);
+rank('proc',D.proc.filter(r=>PROC[r.p]).sort((a,b)=>b.imp-a.imp).slice(0,7),r=>PROC[r.p],r=>r.imp,r=>`${f0(r.n)} lotes`);
+const OF={'1':'1 oferta','2':'2 ofertas','3':'3 ofertas','4-5':'4 a 5 ofertas','6+':'6 o más'};
+const ofs=['1','2','3','4-5','6+'].map(b=>({b,n:(D.ofertas.find(x=>x.b===b)||{n:0}).n}));
+const tot=ofs.reduce((a,r)=>a+r.n,0), sh=[1,.78,.58,.4,.24];
+document.getElementById('ofstack').innerHTML=ofs.map((r,i)=>`<div title="${OF[r.b]}: ${f0(r.n)}" style="width:${r.n/tot*100}%;background:var(--s1);opacity:${sh[i]}"></div>`).join('');
+rank('ofer',ofs,r=>OF[r.b],r=>r.n,null);
+document.querySelectorAll('#ofer .v').forEach((e,i)=>e.textContent=(ofs[i].n/tot*100).toFixed(0)+' %');
+// serie diaria
+const days=[...new Set(D.dia.map(r=>r.d))].sort(); const feeds=['643','1044','1143'];
+let mode='imp';
+document.getElementById('leg').innerHTML=feeds.map(f=>`<span><i style="background:${COL[f]}"></i>${FEED[f]}</span>`).join('');
+const svg=document.getElementById('serie'),ro=document.getElementById('ro');
+function draw(){
+  const W=1000,H=260,L=46,B=26,T=8,R=4,bw=(W-L-R)/30;
+  const get=(d,f)=>(D.dia.find(r=>r.d===d&&r.feed===f)||{})[mode]||0;
+  const val=(d,f)=>mode==='imp'?get(d,f)/1e6:get(d,f);
+  const all=[];for(let i=1;i<=30;i++)all.push('2026-09-'+String(i).padStart(2,'0'));
+  const totals=all.map(d=>feeds.reduce((a,f)=>a+val(d,f),0));
+  const mx=Math.max(...totals), step=(m=>{const p=10**Math.floor(Math.log10(m));return [1,2,2.5,5,10].map(x=>x*p).find(s=>m/s<=5)})(mx);
+  const top=Math.ceil(mx/step)*step, y=v=>T+(H-B-T)*(1-v/top);
+  let s='';
+  for(let v=0;v<=top+1e-9;v+=step){s+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--grid)"/><text x="${L-6}" y="${y(v)+3}" text-anchor="end">${mode==='imp'?f0(v)+' M€':f0(v)}</text>`}
+  all.forEach((d,i)=>{
+    let acc=0;const x=L+i*bw+1,w=bw-2;
+    feeds.forEach(f=>{const v=val(d,f);if(!v)return;const y1=y(acc+v),y0=y(acc);s+=`<rect x="${x}" y="${y1}" width="${w}" height="${Math.max(0,y0-y1-(acc?1.5:0))}" fill="${COL[f]}"/>`;acc+=v});
+    const dow=new Date(d+'T12:00').getDay();
+    s+=`<text x="${x+w/2}" y="${H-8}" text-anchor="middle" ${dow%6==0?'style="opacity:.55"':''}>${i+1}</text>`;
+    s+=`<rect class="hit" data-i="${i}" x="${L+i*bw}" y="${T}" width="${bw}" height="${H-B-T}" fill="transparent" tabindex="0"/>`;
+  });
+  svg.innerHTML=s;
+  svg.querySelectorAll('.hit').forEach(h=>{const show=()=>{const i=+h.dataset.i,d=all[i];const dt=new Date(d+'T12:00').toLocaleDateString('es-ES',{weekday:'long',day:'numeric',month:'long'});
+    ro.textContent=dt+' · '+feeds.map(f=>FEED[f]+' '+(mode==='imp'?eur(get(d,f)):f0(get(d,f))+' lotes')).join(' · ')};
+    h.addEventListener('mouseenter',show);h.addEventListener('focus',show);h.addEventListener('click',show)});
+}
+const bi=document.getElementById('m-imp'),bn=document.getElementById('m-n');
+function setm(m){mode=m;bi.setAttribute('aria-pressed',m==='imp');bn.setAttribute('aria-pressed',m==='n');draw()}
+bi.onclick=()=>setm('imp');bn.onclick=()=>setm('n');draw();
+</script>

@@ -16,3 +16,6 @@ almacen/
 ronda-residencial.md
 # árboles de trabajo de los agentes (arnés de Claude Code): nunca al repo
 .claude/worktrees/
+
+dashboards/**/salida/
+dashboards/**/datos-*.json
